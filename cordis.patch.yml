@@ -1,0 +1,5 @@
+# DeepSeek 官网会话同步：在 DSH 右侧边栏内打开 chat.deepseek.com 并把会话导入。
+# 目前为探测阶段：只读取官网本地存储结构，不写入任何会话。
+- insert:
+    - id: ds-chat-sync
+      name: '@local/dsh-ds-chat-sync'

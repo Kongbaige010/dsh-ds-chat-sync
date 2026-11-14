@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="DeepSeek site chat sync">
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="#2f6feb"/>
+  <path d="M18 24a10 10 0 0 1 10-10h8" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+  <path d="M32 14l6 4-6 4" fill="#ffffff"/>
+  <path d="M46 40a10 10 0 0 1-10 10h-8" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+  <path d="M32 50l-6-4 6-4" fill="#ffffff"/>
+</svg>

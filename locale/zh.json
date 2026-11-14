@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "DeepSeek 官网会话同步",
+    "description": "在右侧边栏读官网会话清单，勾选后转换格式并交给官方导入器写成本地会话。支持按 id 去重，不落盘、不外传。",
+    "detail": "docs/DETAIL.zh.md"
+  }
+}

@@ -1,0 +1,8 @@
+# 开发调试产物：包含从站点取回的会话归档，不应入库
+.debug/
+
+# 依赖与构建产物
+node_modules/
+*.log
+.DS_Store
+Thumbs.db

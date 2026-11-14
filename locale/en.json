@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "DeepSeek site chat sync",
+    "description": "Reads the site's conversation list in the Right Sidebar, converts selected conversations, and hands them to the built-in importer as local Sessions. Deduplicated by id; nothing touches disk or leaves the machine.",
+    "detail": "docs/DETAIL.md"
+  }
+}
