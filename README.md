@@ -55,3 +55,5 @@ POST /api/deepseek-chat-import/archive?workspaceId=<工作区 id>
 | 提示已导入但没新会话 | 记账写错了。点「重置记账」后重新导入（0.4.1 已修） |
 | `workspace-not-found` | 目标工作区 id 失效，重新选一次工作区 |
 | 拉不到列表 | 先在网页区登录，再点「同步会话」 |
+
+[![](https://img.shields.io/badge/powered_by-dsh-4D6BFE?style=flat-square&logo=deepseek&logoColor=white)](https://github.com/deepseek-ai/deepseek-harness)

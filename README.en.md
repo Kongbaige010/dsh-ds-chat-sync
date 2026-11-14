@@ -1,31 +1,62 @@
 # DeepSeek site chat sync
 
-Syncs chat history from chat.deepseek.com into DSH sessions. **Version 0.1.1 is a read-only observation stage**: it opens the site inside DSH and records the requests the site makes when it exports conversations. It writes no sessions and uploads nothing.
+Imports chat.deepseek.com conversations as DSH Sessions. **Version 1.6.0 covers the whole pipeline**: list, select, read, map, package, and hand to the built-in importer.
 
-## Why observe first
+## How it works
 
-DSH's built-in "DeepSeek chat import" only accepts archives exported by the site (`deepseek_data-*.zip`, `export_format_version: 3`). Reusing the site's own export requires knowing which endpoint it calls and what it returns, which can only be observed, not inferred.
+It reads the two endpoints the site itself uses:
+
+| Purpose | Endpoint |
+| --- | --- |
+| Conversation list (paged) | `GET /api/v0/chat_session/fetch_page?lte_cursor.pinned=false&lte_cursor.updated_at=<sec>` |
+| One conversation | `GET /api/v0/chat/history_messages?chat_session_id=<id>` |
+
+The result is compressed with `CompressionStream('deflate-raw')` into an `export_format_version: 3` archive and posted to DSH's own import route:
+
+```
+POST /api/deepseek-chat-import/archive?workspaceId=<workspace id>
+```
+
+**The official plugin still performs the import.** This bundle only reads, converts and packages. Nothing touches disk and nothing leaves the machine.
 
 ## Usage
 
-1. Press **DeepSeek site sync** in the dock under the composer.
-2. The panel expands inline in the dock and shows chat.deepseek.com.
-3. Sign in once. The state lives in a dedicated partition and survives DSH restarts.
-4. Press **Start capture**.
-5. Press the site's own export button.
-6. Press **Show capture** and share the JSON output.
+1. Right Sidebar → `+` → **DeepSeek site sync**.
+2. Sign in to the site in the page area (once; the token is kept for later visits).
+3. Press **Sync conversations**.
+4. Tick the conversations, choose a target workspace.
+5. Press **Import selected**.
+
+## Design choices
+
+- **Only the selected conversations are read**, one request each, so the site's rate limits are not provoked by a bulk prefetch.
+- **The sign-in token is captured from the page's own requests** and persisted in the site's localStorage. When the site answers `INVALID_TOKEN`, the tab reloads once to let the site renew it, then retries. If that fails, open any conversation on the page to renew it.
+- **Deduplication by id** in browser localStorage; already-imported conversations are greyed out.
+- **Images are carried.** The file host grants no CORS headers, so the page cannot read them; the Host half downloads them in Node and returns the bytes. Each entry is named `chat_sessions/{session}_files/{file}_{name}.{ext}`, and the extension follows the actual bytes — the site serves WebP behind a `.png` display name, and the importer derives the media type from the extension.
+- **Only four fragment types are written**: `REQUEST`, `RESPONSE`, `THINK`, `FILE`. Search and open-web cards have field shapes that do not fully match the importer's validation, so they are dropped rather than risk rejecting a whole conversation.
+- **Collapse hides the list completely.** The collapse arrow lives inside the list panel; when the panel is closed it is gone, and a text button in the toolbar brings it back.
 
 ## Known limitations
 
-- **Desktop only.** The web build reports that it is unsupported.
-- Depends on the Desktop-internal `dshDesktop.browser` bridge (`protocolVersion: 1`), which is not a public API.
-- The hook is lost after a page navigation and must be re-armed.
-- This stage imports nothing; importing needs the official "DeepSeek chat import" plugin enabled.
+- **Desktop only.** The web build cannot create a managed browser view.
+- Depends on the Desktop-internal `dshDesktop.browser` bridge (`protocolVersion: 1`), which is not a public API and may change.
+- The site's endpoints are not public; a field rename requires updating the mapping layer.
+- Large imports may hit the site's rate limits.
+- The token is tied to your account session; this plugin reads your own data and sends nothing outward.
 
-## Roadmap
+## Verification
 
-| Stage | Scope | Status |
-| --- | --- | --- |
-| 0.1 | Site sign-in + export request observation | current |
-| 0.2 | Conversation list with checkboxes + target workspace | pending |
-| 0.3 | Direct submit to the official import route + dedup | pending |
+- 36 offline logic checks: CRC-32, timestamp conversion, fragment and session mapping, ZIP structure read back by a standard decompressor, attachment naming and format detection.
+- 8 component render checks that execute the real component body with stub hooks, so a runtime error surfaces before delivery.
+- Live end-to-end verified on 2026-11-14: sign in → sync list → select → import → Sessions appear with images.
+
+## Troubleshooting
+
+| Symptom | Cause and fix |
+| --- | --- |
+| `INVALID_TOKEN` | No token captured. Open any conversation on the page, then sync again. |
+| Marked imported but no new Session | The ledger recorded a write that did not happen; press **Reset ledger** and import again. |
+| `workspace-not-found` | The workspace id went stale; pick the workspace again. |
+| No list at all | Sign in on the page first, then press **Sync conversations**. |
+
+[![](https://img.shields.io/badge/powered_by-dsh-4D6BFE?style=flat-square&logo=deepseek&logoColor=white)](https://github.com/deepseek-ai/deepseek-harness)
