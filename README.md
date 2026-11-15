@@ -1,6 +1,8 @@
 # DeepSeek 官网会话同步
 
-把 chat.deepseek.com 上的会话导入为 DSH 本地会话。**当前版本 0.3.0 已具备完整链路**：拉列表 → 勾选 → 读取 → 转换 → 打包 → 送入官方导入器。
+[![](https://img.shields.io/badge/powered_by-dsh-4D6BFE?style=flat-square&logo=deepseek&logoColor=white)](https://github.com/deepseek-ai/deepseek-harness)
+
+把 chat.deepseek.com 上的会话导入为 DSH 本地会话。**当前版本 1.6.0 已具备完整链路**：拉列表 → 勾选 → 读取 → 转换 → 打包 → 送入官方导入器。
 
 ## 安装
 
@@ -83,5 +85,3 @@ POST /api/deepseek-chat-import/archive?workspaceId=<工作区 id>
 | 提示已导入但没新会话 | 记账写错了。点「重置记账」后重新导入（0.4.1 已修） |
 | `workspace-not-found` | 目标工作区 id 失效，重新选一次工作区 |
 | 拉不到列表 | 先在网页区登录，再点「同步会话」 |
-
-[![](https://img.shields.io/badge/powered_by-dsh-4D6BFE?style=flat-square&logo=deepseek&logoColor=white)](https://github.com/deepseek-ai/deepseek-harness)

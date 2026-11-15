@@ -1,5 +1,7 @@
 # DeepSeek site chat sync
 
+[![](https://img.shields.io/badge/powered_by-dsh-4D6BFE?style=flat-square&logo=deepseek&logoColor=white)](https://github.com/deepseek-ai/deepseek-harness)
+
 Imports chat.deepseek.com conversations as DSH Sessions. **Version 1.6.0 covers the whole pipeline**: list, select, read, map, package, and hand to the built-in importer.
 
 ## Installation
@@ -86,5 +88,3 @@ POST /api/deepseek-chat-import/archive?workspaceId=<workspace id>
 | Marked imported but no new Session | The ledger recorded a write that did not happen; press **Reset ledger** and import again. |
 | `workspace-not-found` | The workspace id went stale; pick the workspace again. |
 | No list at all | Sign in on the page first, then press **Sync conversations**. |
-
-[![](https://img.shields.io/badge/powered_by-dsh-4D6BFE?style=flat-square&logo=deepseek&logoColor=white)](https://github.com/deepseek-ai/deepseek-harness)
