@@ -2,6 +2,34 @@
 
 Imports chat.deepseek.com conversations as DSH Sessions. **Version 1.6.0 covers the whole pipeline**: list, select, read, map, package, and hand to the built-in importer.
 
+## Installation
+
+This is a local DSH plugin bundle (its `package.json` declares `dsh.bundle.patch`), installed as a **directory**, not through npm.
+
+1. Clone it anywhere on the machine:
+
+   ```bash
+   git clone https://github.com/Kongbaige010/dsh-ds-chat-sync.git
+   ```
+
+2. In DSH, open **Plugins** → **Add plugin** and pick the cloned **repository root** — the folder that holds `package.json`, not a subfolder.
+
+3. Confirm a row named **DeepSeek site sync** appears and is enabled.
+
+4. Right Sidebar → `+` → choose **DeepSeek site sync**.
+
+### Requirements
+
+| Requirement | Why |
+| --- | --- |
+| DSH Desktop | The web build cannot create a managed browser view; the panel says so |
+| Built-in importer enabled | **DeepSeek chat import** must be on, because it performs the import |
+| A first sign-in | Sign in to chat.deepseek.com inside the panel; the token is kept |
+
+### Uninstall
+
+Disable the row in Plugins. Imported Sessions are unaffected. To drop the site login as well, remove the corresponding browser partition data in DSH.
+
 ## How it works
 
 It reads the two endpoints the site itself uses:
