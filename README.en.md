@@ -28,9 +28,31 @@ This is a local DSH plugin bundle (its `package.json` declares `dsh.bundle.patch
 | Built-in importer enabled | **DeepSeek chat import** must be on, because it performs the import |
 | A first sign-in | Sign in to chat.deepseek.com inside the panel; the token is kept |
 
+### Verify the install
+
+Three places must all show up; if one is missing, it did not install:
+
+| Where | What you should see |
+| --- | --- |
+| Plugins page | A row named **DeepSeek site sync**, enabled |
+| Composer tool row | A **DeepSeek web** text button |
+| Right Sidebar `+` capsule list | A **DeepSeek site sync** card |
+
+After opening the card, the tab header shows "Page ready" or "Not signed in".
+
 ### Uninstall
 
 Disable the row in Plugins. Imported Sessions are unaffected. To drop the site login as well, remove the corresponding browser partition data in DSH.
+
+### If it will not install
+
+| Symptom | Fix |
+| --- | --- |
+| No **Add plugin** on the Plugins page | Your DSH build predates local directory installs; upgrade |
+| No new row after adding | Wrong folder level — pick the repository root holding `package.json` |
+| No card in the Right Sidebar `+` | The row is disabled, or DSH was not restarted after install |
+| Blank tab | The component failed to load; restart DSH, and open an issue with your DSH version if it persists |
+| The panel says desktop only | You opened the DSH web build; use the desktop client |
 
 ## How it works
 
